@@ -4,12 +4,14 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const user = require("./src/routes/User.js");
+const quizRoutes = require("./src/routes/quizRoutes.js");
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(user);
+app.use(quizRoutes);
 
 app.get("/", (req, res) => {
   res.json({
