@@ -14,7 +14,7 @@ const createQuiz = async (req, res) => {
 const getQuizById = async (req, res) => {
   const { quizId } = req.params;
   try {
-    const quiz = await Quiz.findOne({ quizId });
+    const quiz = await Quiz.findById( quizId );
     if (!quiz) {
       return res.status(404).json({ message: "Quiz not found" });
     }
@@ -34,4 +34,18 @@ const getQuizData = async (req, res) => {
   }
 };
 
-module.exports = { createQuiz, getQuizById, getQuizData };
+// Function to delete Quiz by Id
+const deleteQuizById = async (req, res) => {
+  const { quizId } = req.params;
+  try {
+    const quiz = await Quiz.findByIdAndDelete(quizId);
+    if (!quiz) {
+      return res.status(404).json({ message: "Quiz not found" });
+    }
+    res.status(200).json({ message: "Quiz deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { createQuiz, getQuizById, getQuizData, deleteQuizById };
