@@ -48,4 +48,29 @@ const deleteQuizById = async (req, res) => {
   }
 };
 
-module.exports = { createQuiz, getQuizById, getQuizData, deleteQuizById };
+// function to increase impression count
+const updateImpressionCount = async (req, res) => {
+  try {
+    const { quizId } = req.params;
+    const quiz = await Quiz.findById(quizId);
+
+    if (!quiz) {
+      return res.status(404).json({ error: "Quiz not found" });
+    }
+
+    quiz.impressions = (quiz.impressions || 0) + 1;
+    await quiz.save();
+
+    res.status(200).json({ message: "Impressions updated successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to update impressions" });
+  }
+};
+
+module.exports = {
+  createQuiz,
+  getQuizById,
+  getQuizData,
+  deleteQuizById,
+  updateImpressionCount,
+};

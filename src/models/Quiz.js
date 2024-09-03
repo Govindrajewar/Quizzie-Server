@@ -1,4 +1,3 @@
-
 const mongoose = require("mongoose");
 
 const QuizSchema = new mongoose.Schema({
@@ -32,6 +31,7 @@ const QuizSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  impressions: { type: Number, default: 0 },
 });
 
 module.exports = mongoose.model("QuizData", QuizSchema);
