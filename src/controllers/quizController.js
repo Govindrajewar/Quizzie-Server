@@ -67,10 +67,36 @@ const updateImpressionCount = async (req, res) => {
   }
 };
 
+// Function to update the answeredCorrectly count for a specific question
+const updateAnsweredCorrectly = async (req, res) => {
+  try {
+    const { quizId, questionIndex } = req.params;
+    const quiz = await Quiz.findById(quizId);
+
+    if (!quiz) {
+      return res.status(404).json({ message: "Quiz not found" });
+    }
+
+    if (questionIndex >= quiz.questions.length || questionIndex < 0) {
+      return res.status(400).json({ message: "Invalid question index" });
+    }
+
+    quiz.questions[questionIndex].answeredCorrectly += 1;
+    await quiz.save();
+
+    res
+      .status(200)
+      .json({ message: "AnsweredCorrectly count updated successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to update answeredCorrectly count" });
+  }
+};
+
 module.exports = {
   createQuiz,
   getQuizById,
   getQuizData,
   deleteQuizById,
   updateImpressionCount,
+  updateAnsweredCorrectly,
 };
