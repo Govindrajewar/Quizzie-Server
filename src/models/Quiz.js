@@ -22,6 +22,7 @@ const QuizSchema = new mongoose.Schema({
       correctAnswer: Number,
       timer: String,
       answeredCorrectly: { type: Number, default: 0 },
+      answerOptionCount: { type: [Number], default: [] },
     },
   ],
   createdBy: {

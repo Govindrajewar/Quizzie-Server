@@ -7,6 +7,7 @@ const {
   updateImpressionCount,
   updateAnsweredCorrectly,
   checkQuizId,
+  updateAnswerOptionCount,
 } = require("../controllers/quizController.js");
 
 const router = express.Router();
@@ -20,6 +21,11 @@ router.put(
   "/quiz/:quizId/question/:questionIndex/correct",
   updateAnsweredCorrectly
 );
+router.put(
+  "/quiz/:quizId/question/:questionIndex/option/:optionIndex/count",
+  updateAnswerOptionCount
+);
+
 router.get("/checkQuizId/:quizId", checkQuizId);
 
 module.exports = router;

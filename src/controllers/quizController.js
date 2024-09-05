@@ -92,6 +92,39 @@ const updateAnsweredCorrectly = async (req, res) => {
   }
 };
 
+// Function to update answerOptionCount for a specific option
+const updateAnswerOptionCount = async (req, res) => {
+  try {
+    const { quizId, questionIndex, optionIndex } = req.params;
+    const quiz = await Quiz.findById(quizId);
+
+    if (!quiz) {
+      return res.status(404).json({ message: "Quiz not found" });
+    }
+
+    const question = quiz.questions[questionIndex];
+
+    if (!question || optionIndex >= question.answerOptions.length) {
+      return res.status(400).json({ message: "Invalid question or option index" });
+    }
+
+    if (!question.answerOptionCount || question.answerOptionCount.length !== question.answerOptions.length) {
+      question.answerOptionCount = Array(question.answerOptions.length).fill(0);
+    }
+
+    // Increment the selected option's count
+    question.answerOptionCount[optionIndex] += 1;
+
+    await quiz.save();
+
+    res.status(200).json({ message: "Answer option count updated successfully", updatedQuestion: question });
+  } catch (error) {
+    console.error("Error updating answer option count:", error);
+    res.status(500).json({ error: "Failed to update answer option count" });
+  }
+};
+
+
 // function to check Quiz Id
 const checkQuizId = async (req, res) => {
   try {
@@ -113,5 +146,6 @@ module.exports = {
   deleteQuizById,
   updateImpressionCount,
   updateAnsweredCorrectly,
+  updateAnswerOptionCount, // Exporting new function
   checkQuizId,
 };
