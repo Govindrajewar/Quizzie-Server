@@ -92,6 +92,20 @@ const updateAnsweredCorrectly = async (req, res) => {
   }
 };
 
+// function to check Quiz Id
+const checkQuizId = async (req, res) => {
+  try {
+    const quiz = await Quiz.findOne({ quizId: req.params.quizId });
+    if (quiz) {
+      return res.json({ exists: true });
+    }
+    return res.json({ exists: false });
+  } catch (error) {
+    console.error("Error checking quizId:", error);
+    return res.status(500).send("Server error");
+  }
+};
+
 module.exports = {
   createQuiz,
   getQuizById,
@@ -99,4 +113,5 @@ module.exports = {
   deleteQuizById,
   updateImpressionCount,
   updateAnsweredCorrectly,
+  checkQuizId,
 };
