@@ -18,7 +18,12 @@ const QuizSchema = new mongoose.Schema({
     {
       question: String,
       optionType: String,
-      answerOptions: [String],
+      answerOptions: [
+        {
+          text: { type: String, default: null },
+          image: { type: String, default: null }
+        }
+      ],
       correctAnswer: Number,
       timer: String,
       answeredCorrectly: { type: Number, default: 0 },
